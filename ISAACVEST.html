@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IsaacVest — Own the Harvest</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a3a2a;
+    --green-mid: #254d38;
+    --green-light: #2e6147;
+    --gold: #c9962a;
+    --gold-light: #e6b84a;
+    --cream: #f5efe6;
+    --cream-dark: #e8dfd0;
+    --white: #fdfaf6;
+    --text-dark: #111a14;
+    --text-muted: #6b7c6e;
+  }
+ 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+  html { scroll-behavior: smooth; }
+ 
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+ 
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 5%;
+    background: rgba(26, 58, 42, 0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,150,42,0.2);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 900;
+    color: var(--gold-light);
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--cream); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--cream-dark); text-decoration: none;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em;
+    text-transform: uppercase; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-cta {
+    background: var(--gold); color: var(--green);
+    border: none; padding: 0.6rem 1.4rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; letter-spacing: 0.04em;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+ 
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--green);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center;
+    padding: 8rem 5% 5rem;
+  }
+ 
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 80% 30%, rgba(201,150,42,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 10% 80%, rgba(46,97,71,0.6) 0%, transparent 60%);
+  }
+ 
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: linear-gradient(var(--cream) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--cream) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+ 
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 700px;
+  }
+ 
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(201,150,42,0.15);
+    border: 1px solid rgba(201,150,42,0.35);
+    color: var(--gold-light);
+    padding: 0.4rem 1rem; font-size: 0.78rem;
+    font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+  }
+  .hero-badge::before { content: '●'; font-size: 0.5rem; }
+ 
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 900; line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--gold-light);
+  }
+ 
+  .hero-sub {
+    font-size: 1.1rem; line-height: 1.7;
+    color: rgba(245,239,230,0.75);
+    max-width: 560px; margin-bottom: 2.5rem;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+ 
+  .hero-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-primary {
+    background: var(--gold); color: var(--green);
+    border: none; padding: 0.95rem 2.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; letter-spacing: 0.03em;
+    transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0.15);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .btn-primary:hover::after { transform: translateX(0); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,150,42,0.4); }
+ 
+  .btn-outline {
+    background: transparent; color: var(--cream);
+    border: 1.5px solid rgba(245,239,230,0.35);
+    padding: 0.95rem 2.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 500;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .btn-outline:hover { border-color: var(--gold-light); color: var(--gold-light); }
+ 
+  .hero-stats {
+    position: absolute; right: 5%; bottom: 8%;
+    display: flex; flex-direction: column; gap: 1.2rem;
+    opacity: 0; animation: fadeLeft 0.9s 1s forwards;
+  }
+  .stat-card {
+    background: rgba(245,239,230,0.06);
+    border: 1px solid rgba(201,150,42,0.2);
+    padding: 1.2rem 1.6rem; text-align: right;
+    backdrop-filter: blur(6px);
+    min-width: 170px;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 900;
+    color: var(--gold-light); line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.72rem; color: rgba(245,239,230,0.5);
+    text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.3rem;
+  }
+ 
+  /* ── PROBLEM ── */
+  .section-problem {
+    background: var(--cream);
+    padding: 7rem 5%;
+    position: relative; overflow: hidden;
+  }
+  .section-problem::before {
+    content: '';
+    position: absolute; top: -1px; left: 0; right: 0; height: 80px;
+    background: var(--green);
+    clip-path: polygon(0 0, 100% 0, 100% 30%, 0 100%);
+  }
+ 
+  .container { max-width: 1100px; margin: 0 auto; }
+ 
+  .section-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1rem;
+  }
+ 
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 900; line-height: 1.15;
+    color: var(--green); margin-bottom: 1.5rem;
+  }
+ 
+  .problem-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center; margin-top: 4rem;
+  }
+ 
+  .problem-text p {
+    font-size: 1.05rem; line-height: 1.8;
+    color: #3a4a3d; margin-bottom: 1.2rem;
+  }
+  .problem-text strong { color: var(--green); }
+ 
+  .problem-cards {
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .problem-card {
+    background: var(--white); padding: 1.4rem 1.6rem;
+    border-left: 3px solid var(--gold);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transform: translateX(30px); opacity: 0;
+    transition: transform 0.6s, opacity 0.6s;
+  }
+  .problem-card.visible { transform: translateX(0); opacity: 1; }
+  .problem-card:nth-child(2) { transition-delay: 0.15s; }
+  .problem-card:nth-child(3) { transition-delay: 0.3s; }
+ 
+  .problem-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; color: var(--green); margin-bottom: 0.4rem;
+  }
+  .problem-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+ 
+  /* ── SOLUTION / THREE ARMS ── */
+  .section-solution {
+    background: var(--green);
+    padding: 7rem 5%;
+    position: relative;
+  }
+ 
+  .solution-label { color: var(--gold); }
+  .solution-title { color: var(--cream); }
+ 
+  .arms-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px; margin-top: 4rem;
+    background: rgba(201,150,42,0.15);
+    border: 1px solid rgba(201,150,42,0.15);
+  }
+  .arm-card {
+    background: var(--green);
+    padding: 2.5rem 2rem;
+    position: relative; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .arm-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .arm-card:hover { background: var(--green-mid); }
+  .arm-card:hover::before { transform: scaleX(1); }
+ 
+  .arm-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem; font-weight: 900;
+    color: rgba(201,150,42,0.18); line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .arm-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .arm-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; color: var(--gold-light);
+    margin-bottom: 0.8rem; font-weight: 700;
+  }
+  .arm-desc { font-size: 0.9rem; color: rgba(245,239,230,0.65); line-height: 1.7; }
+ 
+  /* ── HOW IT WORKS ── */
+  .section-how {
+    background: var(--white);
+    padding: 7rem 5%;
+  }
+ 
+  .steps-row {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2rem; margin-top: 4rem; position: relative;
+  }
+  .steps-row::before {
+    content: '';
+    position: absolute; top: 2rem; left: 12%; right: 12%; height: 1px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+    opacity: 0.3;
+  }
+ 
+  .step {
+    text-align: center; padding: 0 1rem;
+  }
+  .step-circle {
+    width: 4rem; height: 4rem;
+    background: var(--green); color: var(--gold-light);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 900;
+    margin: 0 auto 1.2rem;
+    border: 2px solid rgba(201,150,42,0.3);
+    transition: all 0.3s;
+  }
+  .step:hover .step-circle {
+    background: var(--gold); color: var(--green);
+    transform: scale(1.1);
+  }
+  .step h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; color: var(--green); margin-bottom: 0.5rem;
+  }
+  .step p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+ 
+  /* ── VISION QUOTE ── */
+  .section-vision {
+    background: var(--green-mid);
+    padding: 6rem 5%;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .section-vision::before {
+    content: '❝';
+    position: absolute; top: -1rem; left: 5%;
+    font-family: 'Playfair Display', serif;
+    font-size: 12rem; color: rgba(201,150,42,0.07);
+    line-height: 1;
+  }
+ 
+  .vision-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+    font-weight: 700; font-style: italic;
+    color: var(--cream); line-height: 1.4;
+    max-width: 900px; margin: 0 auto 2rem;
+    position: relative; z-index: 1;
+  }
+  .vision-quote em { color: var(--gold-light); font-style: normal; }
+ 
+  .vision-author {
+    font-size: 0.85rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(245,239,230,0.5);
+  }
+ 
+  /* ── INVESTMENT ── */
+  .section-invest {
+    background: var(--cream);
+    padding: 7rem 5%;
+  }
+ 
+  .invest-grid {
+    display: grid; grid-template-columns: 1.2fr 1fr;
+    gap: 5rem; align-items: center; margin-top: 4rem;
+  }
+ 
+  .invest-cards {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .invest-card {
+    background: var(--white);
+    padding: 1.8rem 1.5rem;
+    border: 1px solid var(--cream-dark);
+    text-align: center;
+    transition: all 0.3s; cursor: default;
+  }
+  .invest-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 8px 30px rgba(201,150,42,0.15);
+    transform: translateY(-4px);
+  }
+  .invest-card.featured {
+    background: var(--green); grid-column: span 2;
+    border-color: var(--gold);
+  }
+  .invest-card.featured .invest-amount { color: var(--gold-light); }
+  .invest-card.featured .invest-label { color: rgba(245,239,230,0.6); }
+  .invest-card.featured .invest-return { color: var(--cream); }
+ 
+  .invest-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 900; color: var(--green);
+  }
+  .invest-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin: 0.3rem 0; }
+  .invest-return { font-size: 0.88rem; color: var(--text-dark); font-weight: 500; }
+ 
+  .invest-text .section-title { margin-bottom: 1.5rem; }
+  .invest-text p {
+    font-size: 1rem; line-height: 1.8; color: #3a4a3d;
+    margin-bottom: 1.2rem;
+  }
+  .invest-list { list-style: none; margin-bottom: 2rem; }
+  .invest-list li {
+    padding: 0.5rem 0; font-size: 0.92rem; color: #3a4a3d;
+    border-bottom: 1px solid var(--cream-dark);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .invest-list li::before { content: '✦'; color: var(--gold); font-size: 0.6rem; }
+ 
+  /* ── CTA ── */
+  .section-cta {
+    background: var(--green);
+    padding: 7rem 5%;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(201,150,42,0.1) 0%, transparent 70%);
+  }
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900; color: var(--cream);
+    margin-bottom: 1.2rem; position: relative;
+  }
+  .cta-title em { color: var(--gold-light); font-style: italic; }
+  .cta-sub {
+    font-size: 1.05rem; color: rgba(245,239,230,0.65);
+    max-width: 520px; margin: 0 auto 2.5rem;
+    line-height: 1.7; position: relative;
+  }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; position: relative; }
+ 
+  /* ── FOOTER ── */
+  footer {
+    background: #111a14;
+    padding: 3rem 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 900; color: var(--gold-light);
+  }
+  .footer-logo span { color: rgba(245,239,230,0.4); font-size: 0.8rem; font-weight: 400; display: block; font-family: 'DM Sans', sans-serif; letter-spacing: 0.05em; }
+  .footer-text { font-size: 0.8rem; color: rgba(245,239,230,0.3); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.8rem; color: rgba(245,239,230,0.4); text-decoration: none; }
+  .footer-links a:hover { color: var(--gold-light); }
+ 
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(30px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+ 
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-d1 { transition-delay: 0.1s; }
+  .reveal-d2 { transition-delay: 0.2s; }
+  .reveal-d3 { transition-delay: 0.3s; }
+ 
+  /* ── REGISTER FORM SECTION ── */
+  .section-register {
+    background: var(--cream);
+    padding: 7rem 5%;
+    position: relative;
+  }
+  .section-register::before {
+    content: '';
+    position: absolute; top: -1px; left: 0; right: 0; height: 70px;
+    background: var(--green);
+    clip-path: polygon(0 0, 100% 0, 100% 0%, 0 100%);
+  }
+ 
+  .register-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+ 
+  .register-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+ 
+  .register-toggle {
+    display: inline-flex;
+    background: var(--white);
+    border: 1.5px solid var(--cream-dark);
+    padding: 4px;
+    margin: 1.8rem auto 0;
+    gap: 4px;
+  }
+ 
+  .toggle-btn {
+    padding: 0.7rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    background: transparent; border: none;
+    color: var(--text-muted); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .toggle-btn.active {
+    background: var(--green);
+    color: var(--gold-light);
+  }
+ 
+  .form-panel { display: none; }
+  .form-panel.active { display: block; }
+ 
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .form-group.full { grid-column: span 2; }
+ 
+  .form-group label {
+    font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--green);
+  }
+ 
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.85rem 1rem;
+    border: 1.5px solid var(--cream-dark);
+    background: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.93rem; color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+ 
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+  }
+ 
+  .form-group input.error,
+  .form-group select.error,
+  .form-group textarea.error {
+    border-color: #c0392b;
+  }
+ 
+  .error-msg {
+    font-size: 0.75rem; color: #c0392b;
+    display: none;
+  }
+  .error-msg.visible { display: block; }
+ 
+  .form-group textarea { resize: vertical; min-height: 100px; }
+ 
+  .form-submit {
+    width: 100%;
+    padding: 1rem;
+    background: var(--gold);
+    color: var(--green);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-top: 0.5rem;
+    position: relative; overflow: hidden;
+  }
+  .form-submit:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(201,150,42,0.35);
+  }
+  .form-submit:disabled {
+    opacity: 0.65; cursor: not-allowed; transform: none; box-shadow: none;
+  }
+ 
+  .form-privacy {
+    text-align: center;
+    font-size: 0.75rem; color: var(--text-muted);
+    margin-top: 0.9rem; line-height: 1.5;
+  }
+  .form-privacy a { color: var(--green); }
+ 
+  /* Success screen */
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--white);
+    border: 1px solid rgba(201,150,42,0.25);
+  }
+  .form-success.visible { display: block; }
+  .success-icon {
+    font-size: 3rem; margin-bottom: 1rem;
+  }
+  .success-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 900;
+    color: var(--green); margin-bottom: 0.8rem;
+  }
+  .success-sub {
+    font-size: 0.95rem; color: var(--text-muted);
+    line-height: 1.7; max-width: 420px; margin: 0 auto;
+  }
+ 
+  /* Counter badge */
+  .register-counter {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .counter-pill {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(26,58,42,0.08);
+    border: 1px solid rgba(201,150,42,0.3);
+    padding: 0.4rem 1.1rem;
+    font-size: 0.78rem; font-weight: 600;
+    color: var(--green); letter-spacing: 0.06em;
+  }
+  .counter-pill span { color: var(--gold); font-weight: 700; }
+ 
+  @media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: span 1; }
+  }
+</style>
+  @media (max-width: 900px) {
+    .problem-grid, .arms-grid, .invest-grid { grid-template-columns: 1fr; }
+    .steps-row { grid-template-columns: 1fr 1fr; }
+    .steps-row::before { display: none; }
+    .hero-stats { display: none; }
+    .nav-links { display: none; }
+    .invest-cards { grid-template-columns: 1fr; }
+    .invest-card.featured { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+ 
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Isaac<span>Vest</span></div>
+  <ul class="nav-links">
+    <li><a href="#solution">What We Do</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#invest">Invest</a></li>
+    <li><a href="#register">Register</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Join the Waitlist</button>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Agriculture · Investment · Nigeria</div>
+    <h1 class="hero-title">
+      Own the <em>Harvest.</em><br>Fund the Future.
+    </h1>
+    <p class="hero-sub">
+      IsaacVest connects Nigerian investors to real farmland — and local farmers to the capital they've never had access to. Transparent. Managed. Built for impact.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Start Investing</button>
+      <button class="btn-outline" onclick="document.getElementById('solution').scrollIntoView({behavior:'smooth'})">See How It Works</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="stat-num">₦2T+</div>
+      <div class="stat-label">Nigeria's Annual Rice Market</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">70%</div>
+      <div class="stat-label">Workforce in Agriculture</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3–6</div>
+      <div class="stat-label">Month Crop Cycles</div>
+    </div>
+  </div>
+</section>
+ 
+<!-- PROBLEM -->
+<section class="section-problem" id="problem">
+  <div class="container">
+    <div class="problem-grid">
+      <div class="problem-text reveal">
+        <div class="section-label">The Problem</div>
+        <h2 class="section-title">Nigeria has the land.<br>The people. The hunger.<br>But the gap remains.</h2>
+        <p>Nigeria imports billions of naira worth of rice every year — not because the soil is poor, but because the system is broken. <strong>Farmers can't get funded. Investors can't find farmland. Food prices keep rising.</strong></p>
+        <p>This is not a farming problem. It is a <strong>connection problem.</strong> And IsaacVest is closing it.</p>
+      </div>
+      <div class="problem-cards">
+        <div class="problem-card">
+          <h4>Farmers have land, no capital</h4>
+          <p>Smallholder farmers are shut out of bank loans. Without funding, they can't plant at scale — so Nigeria imports what it could grow.</p>
+        </div>
+        <div class="problem-card">
+          <h4>Investors have capital, no access</h4>
+          <p>Millions of Nigerians want to invest in real assets but have no trusted agricultural vehicle built for them.</p>
+        </div>
+        <div class="problem-card">
+          <h4>No structured connector exists</h4>
+          <p>There is no organized, transparent infrastructure linking capital to farmland at scale. Until now.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- SOLUTION -->
+<section class="section-solution" id="solution">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label solution-label">What We Do</div>
+      <h2 class="section-title solution-title">Three Arms.<br>One Mission.</h2>
+    </div>
+    <div class="arms-grid">
+      <div class="arm-card reveal reveal-d1">
+        <div class="arm-number">01</div>
+        <div class="arm-icon">🌱</div>
+        <div class="arm-title">Crop Ownership Program</div>
+        <p class="arm-desc">Invest a fixed amount and own a unit of farmland. IsaacVest manages everything — planting, growing, harvesting. You earn a share of the yield. No hoe required.</p>
+      </div>
+      <div class="arm-card reveal reveal-d2">
+        <div class="arm-number">02</div>
+        <div class="arm-icon">🍚</div>
+        <div class="arm-title">Rice Processing & Sales</div>
+        <p class="arm-desc">We operate large-scale rice farms in Ogun State. Harvested rice is processed and sold to distributors, institutions, and markets — generating direct commercial revenue.</p>
+      </div>
+      <div class="arm-card reveal reveal-d3">
+        <div class="arm-number">03</div>
+        <div class="arm-icon">🔗</div>
+        <div class="arm-title">Farmer-Investor Marketplace</div>
+        <p class="arm-desc">Local farmers register and list their farms. Verified investors choose who to fund. IsaacVest vets every farmer, structures every deal, and manages accountability — earning a transparent platform fee.</p>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- HOW IT WORKS -->
+<section class="section-how" id="how">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label">The Process</div>
+      <h2 class="section-title">Simple. Transparent.<br>Built for Trust.</h2>
+    </div>
+    <div class="steps-row">
+      <div class="step reveal reveal-d1">
+        <div class="step-circle">1</div>
+        <h4>You Invest</h4>
+        <p>Choose a crop unit or farmer project starting from ₦100,000. Transparent terms, clearly defined returns.</p>
+      </div>
+      <div class="step reveal reveal-d2">
+        <div class="step-circle">2</div>
+        <h4>We Manage</h4>
+        <p>IsaacVest handles every step — land, inputs, planting, growing, and harvesting. You receive regular progress reports.</p>
+      </div>
+      <div class="step reveal reveal-d3">
+        <div class="step-circle">3</div>
+        <h4>Harvest Happens</h4>
+        <p>At the end of the farm cycle (3–6 months), yield is assessed and revenue is calculated from real market sales.</p>
+      </div>
+      <div class="step reveal" style="transition-delay:0.4s">
+        <div class="step-circle">4</div>
+        <h4>You Earn</h4>
+        <p>Your profit share is distributed. IsaacVest retains its management fee. Full transparency throughout.</p>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- VISION QUOTE -->
+<section class="section-vision">
+  <p class="vision-quote reveal">
+    "Food is not just nutrition. It is <em>power, sovereignty, and survival.</em> IsaacVest exists to put that power back in Nigerian hands."
+  </p>
+  <p class="vision-author reveal">— Kazeem Oluwasegun Isaac, Founder & CEO</p>
+</section>
+ 
+<!-- INVEST -->
+<section class="section-invest" id="invest">
+  <div class="container">
+    <div class="invest-grid">
+      <div class="invest-cards reveal">
+        <div class="invest-card">
+          <div class="invest-amount">₦100K</div>
+          <div class="invest-label">Minimum Entry</div>
+          <div class="invest-return">1 Crop Unit · 1 Farm Cycle</div>
+        </div>
+        <div class="invest-card">
+          <div class="invest-amount">₦500K</div>
+          <div class="invest-label">Growth Tier</div>
+          <div class="invest-return">5 Units · Priority Reports</div>
+        </div>
+        <div class="invest-card featured">
+          <div class="invest-amount">₦1M+</div>
+          <div class="invest-label">Strategic Partner</div>
+          <div class="invest-return">Multi-farm access · Direct equity discussion · Full platform priority</div>
+        </div>
+      </div>
+      <div class="invest-text reveal reveal-d2">
+        <div class="section-label">Invest With Us</div>
+        <h2 class="section-title">Your money<br>grows with<br>the harvest.</h2>
+        <p>We are raising a ₦50,000,000 seed round to launch operations in Ogun State. Every naira you invest goes into real land, real crops, and real livelihoods.</p>
+        <ul class="invest-list">
+          <li>Profit-based returns — no false promises</li>
+          <li>Regular farm cycle reports</li>
+          <li>Priority access to future rounds</li>
+          <li>Direct impact on food security</li>
+          <li>Managed by a dedicated team</li>
+        </ul>
+        <button class="btn-primary" style="font-size:0.9rem; padding:0.85rem 2rem;" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Register Your Interest</button>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- CTA -->
+<section class="section-cta">
+  <div class="cta-bg"></div>
+  <h2 class="cta-title reveal">Ready to <em>Own the Harvest?</em></h2>
+  <p class="cta-sub reveal reveal-d1">Join the first wave of investors building Nigeria's agricultural future — one farm at a time.</p>
+  <div class="cta-actions reveal reveal-d2">
+    <button class="btn-primary" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Become an Investor</button>
+    <button class="btn-outline" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Register as a Farmer</button>
+  </div>
+</section>
+ 
+<!-- REGISTER FORM -->
+<section class="section-register" id="register">
+  <div class="container">
+    <div class="register-wrapper">
+ 
+      <div class="register-header reveal">
+        <div class="section-label">Join the Waitlist</div>
+        <h2 class="section-title" style="color:var(--green);">Take the First Step.<br>We'll Handle the Rest.</h2>
+        <p style="font-size:1rem; color:#3a4a3d; line-height:1.7; margin-top:0.8rem; max-width:500px; margin-left:auto; margin-right:auto;">
+          Whether you're bringing capital or bringing land — there's a place for you in IsaacVest. Register now and we'll reach out when we open our first cycle.
+        </p>
+        <div class="register-toggle">
+          <button class="toggle-btn active" onclick="switchForm('investor', this)">I'm an Investor</button>
+          <button class="toggle-btn" onclick="switchForm('farmer', this)">I'm a Farmer</button>
+        </div>
+      </div>
+ 
+      <div class="register-counter reveal">
+        <div class="counter-pill">✦ <span id="reg-count">—</span> people have already registered</div>
+      </div>
+ 
+      <!-- SUCCESS SCREEN (shared) -->
+      <div class="form-success" id="form-success">
+        <div class="success-icon">🌾</div>
+        <div class="success-title">You're on the list.</div>
+        <p class="success-sub">We've received your registration. IsaacVest will be in touch before our first cycle launches. Welcome to the harvest.</p>
+      </div>
+ 
+      <!-- INVESTOR FORM -->
+      <div class="form-panel active" id="panel-investor">
+        <form id="form-investor" novalidate>
+          <input type="hidden" name="form_type" value="Investor Registration">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="inv-firstname">First Name</label>
+              <input type="text" id="inv-firstname" name="first_name" placeholder="Adebayo">
+              <span class="error-msg" id="err-inv-firstname">Please enter your first name.</span>
+            </div>
+            <div class="form-group">
+              <label for="inv-lastname">Last Name</label>
+              <input type="text" id="inv-lastname" name="last_name" placeholder="Okafor">
+              <span class="error-msg" id="err-inv-lastname">Please enter your last name.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="inv-email">Email Address</label>
+              <input type="email" id="inv-email" name="email" placeholder="you@example.com">
+              <span class="error-msg" id="err-inv-email">Please enter a valid email.</span>
+            </div>
+            <div class="form-group">
+              <label for="inv-phone">Phone Number</label>
+              <input type="tel" id="inv-phone" name="phone" placeholder="+234 800 000 0000">
+              <span class="error-msg" id="err-inv-phone">Please enter your phone number.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inv-range">Investment Range</label>
+            <select id="inv-range" name="investment_range">
+              <option value="">— Select a range —</option>
+              <option value="₦100K – ₦499K">₦100,000 – ₦499,999</option>
+              <option value="₦500K – ₦999K">₦500,000 – ₦999,999</option>
+              <option value="₦1M – ₦4.9M">₦1,000,000 – ₦4,999,999</option>
+              <option value="₦5M+">₦5,000,000 and above</option>
+            </select>
+            <span class="error-msg" id="err-inv-range">Please select an investment range.</span>
+          </div>
+          <div class="form-group">
+            <label for="inv-message">Message (Optional)</label>
+            <textarea id="inv-message" name="message" placeholder="Any questions, or tell us what excites you about this opportunity…"></textarea>
+          </div>
+          <button type="submit" class="form-submit" id="btn-investor">Register as an Investor →</button>
+          <p class="form-privacy">🔒 Your details are private. We will never sell or share your information.</p>
+        </form>
+      </div>
+ 
+      <!-- FARMER FORM -->
+      <div class="form-panel" id="panel-farmer">
+        <form id="form-farmer" novalidate>
+          <input type="hidden" name="form_type" value="Farmer Registration">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="farm-firstname">First Name</label>
+              <input type="text" id="farm-firstname" name="first_name" placeholder="Segun">
+              <span class="error-msg" id="err-farm-firstname">Please enter your first name.</span>
+            </div>
+            <div class="form-group">
+              <label for="farm-lastname">Last Name</label>
+              <input type="text" id="farm-lastname" name="last_name" placeholder="Alabi">
+              <span class="error-msg" id="err-farm-lastname">Please enter your last name.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="farm-email">Email Address</label>
+              <input type="email" id="farm-email" name="email" placeholder="you@example.com">
+              <span class="error-msg" id="err-farm-email">Please enter a valid email.</span>
+            </div>
+            <div class="form-group">
+              <label for="farm-phone">Phone Number</label>
+              <input type="tel" id="farm-phone" name="phone" placeholder="+234 800 000 0000">
+              <span class="error-msg" id="err-farm-phone">Please enter your phone number.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="farm-state">State / LGA</label>
+              <input type="text" id="farm-state" name="state_lga" placeholder="e.g. Abeokuta North, Ogun">
+              <span class="error-msg" id="err-farm-state">Please enter your state or LGA.</span>
+            </div>
+            <div class="form-group">
+              <label for="farm-land">Land Size (Hectares)</label>
+              <input type="text" id="farm-land" name="land_size" placeholder="e.g. 2 hectares">
+              <span class="error-msg" id="err-farm-land">Please enter your land size.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="farm-crop">Primary Crop</label>
+            <select id="farm-crop" name="primary_crop">
+              <option value="">— Select a crop —</option>
+              <option value="Rice">Rice</option>
+              <option value="Maize">Maize</option>
+              <option value="Cassava">Cassava</option>
+              <option value="Vegetables">Vegetables</option>
+              <option value="Pepper">Pepper</option>
+              <option value="Yam">Yam</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="error-msg" id="err-farm-crop">Please select a crop.</span>
+          </div>
+          <div class="form-group">
+            <label for="farm-message">Tell Us About Your Farm (Optional)</label>
+            <textarea id="farm-message" name="message" placeholder="Current challenges, existing crops, what kind of support you need…"></textarea>
+          </div>
+          <button type="submit" class="form-submit" id="btn-farmer">Register as a Farmer →</button>
+          <p class="form-privacy">🔒 Your details are private. We will never sell or share your information.</p>
+        </form>
+      </div>
+ 
+    </div>
+  </div>
+</section>
+ 
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    IsaacVest
+    <span>Agriculture · Investment · Africa</span>
+  </div>
+  <div class="footer-text">© 2026 IsaacVest Ltd. · Ogun State, Nigeria</div>
+  <div class="footer-links">
+    <a href="#solution">What We Do</a>
+    <a href="#how">How It Works</a>
+    <a href="#invest">Invest</a>
+  </div>
+</footer>
+ 
+<script>
+  // ── FORMSPREE ENDPOINT ──
+  // 1. Go to https://formspree.io and create a free account
+  // 2. Create a new form — you'll receive a form ID like "xbjnkpqz"
+  // 3. Replace YOUR_FORM_ID below with that ID
+  const FORMSPREE_ID = 'maqlobrw';
+  const FORMSPREE_URL = `https://formspree.io/f/${FORMSPREE_ID}`;
+ 
+  // ── SCROLL REVEAL ──
+  const revealEls = document.querySelectorAll('.reveal, .problem-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+ 
+  // ── NAV SHRINK ON SCROLL ──
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.padding = window.scrollY > 60 ? '1rem 5%' : '1.4rem 5%';
+  });
+ 
+  // ── REGISTRATION COUNTER (localStorage) ──
+  function getCount() {
+    return parseInt(localStorage.getItem('iv_reg_count') || '0', 10);
+  }
+  function incrementCount() {
+    const c = getCount() + 1;
+    localStorage.setItem('iv_reg_count', c);
+    updateCountDisplay();
+  }
+  function updateCountDisplay() {
+    const el = document.getElementById('reg-count');
+    if (el) el.textContent = getCount();
+  }
+  updateCountDisplay();
+ 
+  // ── TOGGLE INVESTOR / FARMER ──
+  function switchForm(type, btn) {
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + type).classList.add('active');
+  }
+ 
+  // ── VALIDATION HELPERS ──
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  }
+  function showError(fieldId, errId) {
+    const f = document.getElementById(fieldId);
+    const e = document.getElementById(errId);
+    if (f) f.classList.add('error');
+    if (e) e.classList.add('visible');
+  }
+  function clearError(fieldId, errId) {
+    const f = document.getElementById(fieldId);
+    const e = document.getElementById(errId);
+    if (f) f.classList.remove('error');
+    if (e) e.classList.remove('visible');
+  }
+  function clearAllErrors(formId) {
+    const form = document.getElementById(formId);
+    form.querySelectorAll('input, select, textarea').forEach(el => el.classList.remove('error'));
+    form.querySelectorAll('.error-msg').forEach(el => el.classList.remove('visible'));
+  }
+ 
+  function validateInvestor() {
+    clearAllErrors('form-investor');
+    let ok = true;
+    const fn = document.getElementById('inv-firstname');
+    const ln = document.getElementById('inv-lastname');
+    const em = document.getElementById('inv-email');
+    const ph = document.getElementById('inv-phone');
+    const rg = document.getElementById('inv-range');
+    if (!fn.value.trim()) { showError('inv-firstname','err-inv-firstname'); ok=false; }
+    if (!ln.value.trim()) { showError('inv-lastname','err-inv-lastname'); ok=false; }
+    if (!isValidEmail(em.value)) { showError('inv-email','err-inv-email'); ok=false; }
+    if (!ph.value.trim()) { showError('inv-phone','err-inv-phone'); ok=false; }
+    if (!rg.value) { showError('inv-range','err-inv-range'); ok=false; }
+    return ok;
+  }
+ 
+  function validateFarmer() {
+    clearAllErrors('form-farmer');
+    let ok = true;
+    const fn = document.getElementById('farm-firstname');
+    const ln = document.getElementById('farm-lastname');
+    const em = document.getElementById('farm-email');
+    const ph = document.getElementById('farm-phone');
+    const st = document.getElementById('farm-state');
+    const la = document.getElementById('farm-land');
+    const cr = document.getElementById('farm-crop');
+    if (!fn.value.trim()) { showError('farm-firstname','err-farm-firstname'); ok=false; }
+    if (!ln.value.trim()) { showError('farm-lastname','err-farm-lastname'); ok=false; }
+    if (!isValidEmail(em.value)) { showError('farm-email','err-farm-email'); ok=false; }
+    if (!ph.value.trim()) { showError('farm-phone','err-farm-phone'); ok=false; }
+    if (!st.value.trim()) { showError('farm-state','err-farm-state'); ok=false; }
+    if (!la.value.trim()) { showError('farm-land','err-farm-land'); ok=false; }
+    if (!cr.value) { showError('farm-crop','err-farm-crop'); ok=false; }
+    return ok;
+  }
+ 
+  // ── FORMSPREE SUBMIT ──
+  async function submitToFormspree(formEl, btnEl) {
+    const data = new FormData(formEl);
+    btnEl.disabled = true;
+    btnEl.textContent = 'Sending…';
+ 
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+ 
+      if (res.ok) {
+        incrementCount();
+        // Hide all form panels, show success
+        document.querySelectorAll('.form-panel').forEach(p => p.style.display = 'none');
+        document.querySelector('.register-toggle').style.display = 'none';
+        document.getElementById('form-success').classList.add('visible');
+      } else {
+        const json = await res.json();
+        const msg = json.errors ? json.errors.map(e => e.message).join(', ') : 'Something went wrong. Please try again.';
+        alert(msg);
+        btnEl.disabled = false;
+        btnEl.textContent = btnEl.id === 'btn-investor' ? 'Register as an Investor →' : 'Register as a Farmer →';
+      }
+    } catch (err) {
+      alert('Network error. Please check your connection and try again.');
+      btnEl.disabled = false;
+      btnEl.textContent = btnEl.id === 'btn-investor' ? 'Register as an Investor →' : 'Register as a Farmer →';
+    }
+  }
+ 
+  // ── FORM SUBMIT HANDLERS ──
+  document.getElementById('form-investor').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!validateInvestor()) return;
+    await submitToFormspree(this, document.getElementById('btn-investor'));
+  });
+ 
+  document.getElementById('form-farmer').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!validateFarmer()) return;
+    await submitToFormspree(this, document.getElementById('btn-farmer'));
+  });
+ 
+  // Clear errors on input
+  ['inv-firstname','inv-lastname','inv-email','inv-phone','inv-range'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', () => { el.classList.remove('error'); });
+  });
+  ['farm-firstname','farm-lastname','farm-email','farm-phone','farm-state','farm-land','farm-crop'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', () => { el.classList.remove('error'); });
+  });
+</script>
+</body>
+</html>
